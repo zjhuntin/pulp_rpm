@@ -8,6 +8,17 @@ Pulp 2.4.0
 New Features
 ------------
 
+Yum Distributor
+^^^^^^^^^^^^^^^
+
+The yum distributor plugin has bee re-written to remove its dependencies on yum and createrepo
+and to consume significantly less memory when publishing large repositories.
+
+The new yum distributor now lays published repositories out on disk differently:
+
+ * HTTP and HTTPS served repositories are now found under the /var/lib/pulp/published/yum/ directory
+ * The new directory /var/lib/pulp/published/yum/master contains the actual published repository files
+ * The generated repodata metadata files are no longer prefixed with their checksum
 
 API Changes
 -----------
@@ -23,6 +34,8 @@ attributes can be found in the technical reference.
 
 Upgrade Instructions
 --------------------
+
+Make sure to run the `pulp-manage-db` command so that you upgrade your rpm support to version `15`.
 
 Please see the
 `Pulp Platform upgrade instructions <https://pulp-user-guide.readthedocs.org/en/pulp-2.4/release-notes.html>`_
