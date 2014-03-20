@@ -126,7 +126,7 @@ class ISOImporter(Importer):
         See super(self.__class__, self).upload_unit() for the docblock explaining this method. In
         short, it handles ISO uploads.
         """
-        iso = models.ISO(unit_key['name'], unit_key['size'], unit_key['checksum'])
+        iso = models.ISO(unit_key['name'], unit_key['size'], unit_key['checksum'], metadata=metadata)
         iso.init_unit(conduit)
 
         shutil.move(file_path, iso.storage_path)

@@ -337,7 +337,7 @@ class ISO(object):
     """
     TYPE = ids.TYPE_ID_ISO
 
-    def __init__(self, name, size, checksum, unit=None):
+    def __init__(self, name, size, checksum, unit=None, metadata=None):
         """
         Initialize an ISO, with its name, size, and checksum.
 
@@ -351,6 +351,7 @@ class ISO(object):
         self.name = name
         self.size = size
         self.checksum = checksum
+        self.metadata = metadata
 
         # This is the Unit that the ISO represents. An ISO doesn't always have a Unit backing it,
         # particularly during repository synchronization or ISO uploads when the ISOs are being
@@ -362,7 +363,7 @@ class ISO(object):
         """
         Construct an ISO out of a Unit.
         """
-        return cls(unit.unit_key['name'], unit.unit_key['size'], unit.unit_key['checksum'], unit)
+        return cls(unit.unit_key['name'], unit.unit_key['size'], unit.unit_key['checksum'], unit, unit.metadata)
 
     def init_unit(self, conduit):
         """
@@ -373,7 +374,7 @@ class ISO(object):
         """
         relative_path = os.path.join(self.name, self.checksum, str(self.size), self.name)
         unit_key = {'name': self.name, 'size': self.size, 'checksum': self.checksum}
-        metadata = {}
+        metadata = self.metadata or {}
         self._unit = conduit.init_unit(self.TYPE, unit_key, metadata, relative_path)
 
     def save_unit(self, conduit):
